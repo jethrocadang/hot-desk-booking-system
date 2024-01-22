@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/lib/prisma.ts", "src/app/ui/bookings/date-time.tsx", "prisma/seed/data/placeholder-data.js"],
   "exclude": ["node_modules"]
 }

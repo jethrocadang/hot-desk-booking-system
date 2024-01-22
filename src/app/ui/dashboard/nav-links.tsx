@@ -15,9 +15,14 @@ import {
 const userLinks = [
   { name: "Home", href: "/dashboard", icon: HomeIcon },
   {
-    name: "Bookings",
+    name: "Booking",
     href: "/users/dashboard/bookings",
     icon: BookmarkIcon,
+  },
+  {
+    name: "Desks",
+    href: "/users/dashboard/desks",
+    icon: Squares2X2Icon,
   },
   {
     name: "Support",

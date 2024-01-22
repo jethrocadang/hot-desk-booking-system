@@ -1,0 +1,93 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+model User {
+  id        String    @id @default(cuid())
+  firstName String?   @map("first_name")
+  lastName  String?   @map("last_name")
+  email     String?   @unique
+  password  String?
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  role      Role      @default(USER)
+  verified  Boolean   @default(false)
+  booking   Booking[]
+
+  @@map("users")
+}
+
+model Booking {
+  id            String        @id @default(cuid())
+  createdAt     DateTime      @default(now()) @map("created_at")
+  updatedAt     DateTime      @updatedAt @map("updated_at")
+  startTime     DateTime      @map("start_time") 
+  endTime       DateTime      @map("end_time") 
+  bookingStatus BookingStatus
+  userId        String
+  deskId        String
+  desk          Desk          @relation(fields: [deskId], references: [id])
+  user          User          @relation(fields: [userId], references: [id])
+
+  @@map("bookings")
+}
+
+model Floor {
+  id          String     @id @default(cuid())
+  floorTitle  String?    @map("floor_title")
+  description String?
+  imageUrl    String?    @map("image_url")
+  deskStatus  DeskStatus @default(AVAILABLE)
+  rooms       Room[]
+
+  @@map("floors")
+}
+
+model Room {
+  id          String     @id @default(cuid())
+  floorId     String
+  roomTitle   String?    @map("room_title")
+  description String?
+  imageUrl    String?    @map("image_url")
+  deskStatus  DeskStatus @default(AVAILABLE)
+  desk        Desk[]
+  floor       Floor      @relation(fields: [floorId], references: [id])
+
+  @@map("rooms")
+}
+
+model Desk {
+  id          String     @id @default(cuid())
+  roomId      String
+  deskTitle   String?    @map("desk_title")
+  description String?
+  imageUrl    String?    @map("image_url")
+  deskStatus  DeskStatus @default(AVAILABLE)
+  booking     Booking[]
+  room        Room       @relation(fields: [roomId], references: [id])
+
+  @@map("desks")
+}
+
+enum Role {
+  SUPERADMIN
+  ADMIN
+  USER
+}
+
+enum BookingStatus {
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
+
+enum DeskStatus {
+  DISABLE
+  AVAILABLE
+}
