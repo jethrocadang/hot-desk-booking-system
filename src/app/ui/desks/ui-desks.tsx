@@ -18,7 +18,7 @@ export function Floors() {
       </div>
       <div className="flex mt-5 justify-center ">
         <Image
-          src="/desks/desks-main.png"
+          src="/desks-F2/DESKMAP FLOOR 2.png"
           width={1000}
           height={1000}
           alt="Floor 1"
@@ -33,9 +33,9 @@ export function Rooms() {
     <div className="flex flex-row">
       <div className="flex justify-center ">
         <Image
-          src="/desks/desks-prvO.png"
-          width={250}
-          height={250}
+          src="/desks-F2/DESKMAP (PRIVATE OFFICE).png"
+          width={800}
+          height={800}
           alt="Floor 1"
         />
       </div>
@@ -59,9 +59,9 @@ export function Desks() {
     <div className="flex flex-row">
       <div className="flex justify-center ">
         <Image
-          src="/desks/desks-PO1.png"
-          width={250}
-          height={250}
+          src="/desks-F2/DESKMAP (PRIVATE OFFICE DESK P01).png"
+          width={500}
+          height={500}
           alt="Floor 1"
         />
       </div>

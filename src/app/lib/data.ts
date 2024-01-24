@@ -1,6 +1,5 @@
 import { Floor, Room, Desk } from "@prisma/client";
 import prisma from "./prisma";
-import { title } from "process";
 
 export async function getFloors() {
   const floors = await prisma.floor.findMany({

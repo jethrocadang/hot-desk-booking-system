@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useState } from "react";
 import { lusitana } from "../fonts";
 import {
-  UserCircleIcon,
   ClockIcon,
   CalendarIcon,
   Squares2X2Icon,
@@ -16,6 +15,10 @@ import { DatePicker, TimePicker } from "antd";
 import type { DatePickerProps } from "antd";
 import type { GetProps } from "antd";
 import { RangeValue } from "rc-picker/lib/interface";
+import { useSession } from "next-auth/react";
+import { createBooking } from "@/app/lib/actions";
+
+import { Button } from "../button";
 
 import dayjs from "dayjs";
 
@@ -31,6 +34,10 @@ export function FloorForm({
   rooms: Room[];
   desks: Desk[];
 }) {
+
+  const {data:session} = useSession()
+
+  
   // useState for Floors|Rooms|Desks
   const [selectedFloor, setSelectedFloor] = useState<Floor | null>(null);
   const [selectedRoom, setSelectedRoom] = useState<Room | null>(null);
@@ -91,8 +98,18 @@ export function FloorForm({
     setSelectedTime(value);
   };
 
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+  };
+  
+  
+  
   return (
-    <form action="" className="flex width-full flex-col gap-2.5 p-10 bg-white m-8 rounded-lg">
+    
+    <form onSubmit={onSubmit} className="flex width-full flex-col gap-2.5 p-10 bg-white m-8 rounded-lg">
+      
+
       {/* Date and Time */}
       <div className="flex flex-col gap-2.5">
         <div className=" flex flex-col">
@@ -216,6 +233,7 @@ export function FloorForm({
           />
         )}
       </div>
+      <Button type="submit">Submit</Button>
     </form>
   );
 }

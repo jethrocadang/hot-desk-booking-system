@@ -13,17 +13,16 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
+
 import { Input } from "@/components/ui/input";
 import { Button } from "./button";
-import path from "path";
-import { message } from "antd";
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
-import { validateHeaderName } from "http";
+import {signIn} from "next-auth/react";
 
 const formSchema = z
   .object({
     email: z.string().min(1, "Required").email("Invalid Email"),
-    password: z.string().min(12,'At least 12 Characters'),
+    password: z.string().min(5,'At least 12 Characters'),
   })
   
  
@@ -31,7 +30,7 @@ const formSchema = z
 export default function Register() {
 
   const router = useRouter();
-  // 1. Define your form.
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -39,7 +38,14 @@ export default function Register() {
       password: "",
     },
   });
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
+
+    signIn( 'credentials', {
+      email: values.email,
+      password: values.password,
+      callbackUrl : '/users/dashboard'
+    })
+
   }
 
   return (

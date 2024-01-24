@@ -13,7 +13,7 @@ import {
 } from "@heroicons/react/24/outline";
 
 const userLinks = [
-  { name: "Home", href: "/dashboard", icon: HomeIcon },
+  { name: "Home", href: "/users/dashboard", icon: HomeIcon },
   {
     name: "Booking",
     href: "/users/dashboard/bookings",

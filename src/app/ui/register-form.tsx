@@ -13,19 +13,17 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
+
 import { Input } from "@/components/ui/input";
 import { Button } from "./button";
-import path from "path";
-import { message } from "antd";
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
-import { validateHeaderName } from "http";
 
 const formSchema = z
   .object({
     firstName: z.string().min(1, "Required."),
     lastName: z.string().min(1, "Required"),
     email: z.string().min(1, "Required").email("Invalid Email"),
-    password: z.string().min(12,'At least 12 Characters'),
+    password: z.string().min(5,'At least 5 Characters'),
     confirmPassword: z.string().min(1, "required"),
   })
   
@@ -37,7 +35,7 @@ const formSchema = z
 export default function Register() {
 
   const router = useRouter();
-  // 1. Define your form.
+  
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -49,6 +47,9 @@ export default function Register() {
     },
   });
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    
+    console.log(values)
+
     const response = await fetch('/api/register',{
       method:'POST',
       headers:{
