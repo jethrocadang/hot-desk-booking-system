@@ -12,11 +12,13 @@ import {
   FormLabel,
   FormItem,
   FormMessage,
-} from "@/components/ui/form";
+} from "@/app/ui/shadcn/form";
 
-import { Input } from "@/components/ui/input";
+import { Input } from "@/app/ui/shadcn/input";
 import { Button } from "./button";
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
+import { createUser } from "../lib/actions";
+import { METHODS } from "http";
 
 const formSchema = z
   .object({
@@ -47,13 +49,13 @@ export default function Register() {
     },
   });
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    
-    console.log(values)
 
+
+  
     const response = await fetch('/api/register',{
       method:'POST',
       headers:{
-        'Content-type' : 'application/json'
+        'Content-Type' : 'application/json'
       },
       body: JSON.stringify({
         firstName: values.firstName,
@@ -64,16 +66,17 @@ export default function Register() {
     })
 
     if (response.ok){
-      router.push('/login')
+      console.log(values)
+      console.log(response)
     } else{
-      console.error('Registration Failed')
+      console.error('Failed')
     }
 
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
+      <form  onSubmit={form.handleSubmit(onSubmit)} className="space-y-3" method="POST">
         <FormField
           control={form.control}
           name="firstName"
@@ -140,7 +143,7 @@ export default function Register() {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full">Submit <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" /></Button>
+        <Button type="submit" className="w-full" onClick={form.handleSubmit(onSubmit)}>Submit <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" /></Button>
       </form>
     </Form>
   );

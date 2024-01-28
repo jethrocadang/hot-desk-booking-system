@@ -7,26 +7,26 @@ export default function UserRole({ role }: { role: string }) {
       className={clsx(
         'inline-flex items-center rounded-full px-2 py-1 text-xs',
         {
-          'bg-sky-500 text-white font-medium': role === 'superAdmin',
-          'bg-orange-500 text-white font-medium': role === 'admin',
-          'bg-green-500 text-white font-medium': role === 'user',
+          'bg-sky-500 text-white font-medium': role === 'SUPERADMIN',
+          'bg-orange-500 text-white font-medium': role === 'ADMIN',
+          'bg-green-500 text-white font-medium': role === 'USER',
 
         },
       )}
     >
-      {role === 'superAdmin' ? (
+      {role === 'SUPERADMIN' ? (
         <>
           Admin
           <ShieldCheckIcon className="ml-1 w-4 text-white font-medium" />
         </>
       ) : null}
-      {role === 'admin' ? (
+      {role === 'ADMIN' ? (
         <>
           Floor Manager
           <Cog6ToothIcon className="ml-1 w-4 text-white font-medium" />
         </>
       ) : null}
-        {role === 'user' ? (
+        {role === 'USER' ? (
         <>
           User
           <UserCircleIcon className="ml-1 w-4 text-white font-medium" />

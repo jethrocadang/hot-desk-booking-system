@@ -1,8 +1,12 @@
 import Breadcrumbs from "@/app/ui/bookings/breadcrumbs";
 import { lusitana } from "@/app/ui/fonts";
 import { Desks } from "@/app/ui/desks/ui-desks";
+import { getDesks } from "@/app/lib/data";
 
-export default function Page() {
+export default async function Page() {
+
+const desks = await getDesks();
+
   return (
     <main>
       <Breadcrumbs
@@ -17,10 +21,10 @@ export default function Page() {
         ]}
       />
 
-      <div className={`${lusitana.className} bg-sky-100 p-3 mb-10 rounded-lg`}>
+      {/* <div className={`${lusitana.className} bg-sky-100 p-3 mb-10 rounded-lg`}>
         Private Office
-      </div>
-      <Desks/>
+      </div> */}
+      <Desks desks={desks}/>
     </main>
   );
 }

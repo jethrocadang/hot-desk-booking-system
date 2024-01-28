@@ -13,7 +13,8 @@ const options: NextAuthOptions = {
         strategy:'jwt'
     },
    pages:{
-        signIn:'/login'
+        signIn:'/login',
+        signOut:'/'
    },
     providers : [
         CredentialsProvider({
@@ -98,7 +99,7 @@ const options: NextAuthOptions = {
         jwt: async ({token, user}) => {
             if (user){
                 const u = user as unknown as User
-                return Promise.resolve({
+                return({
                     ...token,
                     id: u.id,
                     firstName: u.firstName,
@@ -108,7 +109,7 @@ const options: NextAuthOptions = {
                 })
             }
 
-            return Promise.resolve(token)
+            return token
         }
     }
 }

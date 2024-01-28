@@ -1,8 +1,10 @@
 import Image from "next/image";
 import { DeleteUser, AcceptUser, EditUser } from "./buttons";
 import UserRole from "./roles";
+import { User } from "@prisma/client";
+import { UserCircleIcon } from "@heroicons/react/24/outline";
 
-export default async function UsersTable() {
+export default async function UsersTable({users}:{users:User[]}) {
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
@@ -19,52 +21,47 @@ export default async function UsersTable() {
                 <th scope="col" className="px-3 py-5 font-medium">
                   Role
                 </th>
-                <th scope="col" className="px-3 py-5 font-medium">
+                {/* <th scope="col" className="px-3 py-5 font-medium">
                   Date
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
                   Status
-                </th>
+                </th> */}
                 <th scope="col" className="relative py-3 pl-6 pr-3">
                   <span className="sr-only">Edit</span>
                 </th>
               </tr>
             </thead>
             <tbody className="bg-white">
+              {users?.map((users) => 
               <tr className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg">
                 <td className="whitespace-nowrap py-3 pl-6 pr-3">
                   <div className="flex items-center gap-3">
-                    <Image
-                      src="/Cadang,Jethro R..jpg"
-                      width={28}
-                      height={28}
-                      alt="Picture"
-                      className="rounded-full"
-                    />
-                    <p>Jethro Cadang</p>
+                    <UserCircleIcon className="h-10 w-10"/>
+                    <p>{users.firstName} {users.lastName}</p>
                   </div>
                 </td>
                 <td className="whitespace-nowrap px-3 py-3">
-                  jethrocadang@gmail.com
+                  {users.email}
                 </td>
                 <td className="whitespace-nowrap px-3 py-3">
-                    <UserRole role={`superAdmin`}/>
-                    <UserRole role={`admin`}/>
-                    <UserRole role={`user`}/>
+                    <UserRole role={users.role}/>
+                  
 
                 </td>
-                <td className="whitespace-nowrap px-3 py-3">January 1, 2023</td>
+                {/* <td className="whitespace-nowrap px-3 py-3">January 1, 2023</td> */}
                 <td className="whitespace-nowrap px-3 py-3">
                 </td>
-                <td className="whitespace-nowrap py-3 pl-6 pr-3">
+                {/* <td className="whitespace-nowrap py-3 pl-6 pr-3">
                   <div className="flex justify-end gap-3">
                     <EditUser/>
                     <DeleteUser/>
                     <AcceptUser/>
                   
                   </div>
-                </td>
+                </td> */}
               </tr>
+              )}
             </tbody>
           </table>
         </div>

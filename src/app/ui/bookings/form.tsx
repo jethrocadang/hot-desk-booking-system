@@ -37,6 +37,7 @@ export function FloorForm({
 
   const {data:session} = useSession()
 
+
   
   // useState for Floors|Rooms|Desks
   const [selectedFloor, setSelectedFloor] = useState<Floor | null>(null);
@@ -81,7 +82,7 @@ export function FloorForm({
     return current && current < dayjs().endOf("day");
   };
 
-  //Handle change for Desk
+  //Handle change for Date
   const onChange: DatePickerProps["onChange"] = (date, dateString) => {
     setSelectedDate(date);
   };
@@ -91,47 +92,35 @@ export function FloorForm({
   const [selectedTime, setSelectedTime] =
     useState<RangeValue<dayjs.Dayjs> | null>(null);
 
-  const handleTimeChange = (
-    value: RangeValue<dayjs.Dayjs>,
-    formatString: [string, string]
-  ) => {
-    setSelectedTime(value);
-  };
+    const onTimeChange = (time: dayjs.Dayjs, timeString: string) => {
+      console.log(time, timeString);
+    };
 
-  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-  };
   
   
   
   return (
     
-    <form onSubmit={onSubmit} className="flex width-full flex-col gap-2.5 p-10 bg-white m-8 rounded-lg">
+    <form action={createBooking} className="flex width-full flex-col gap-2.5 p-10 bg-white m-8 rounded-lg">
       
-
-      {/* Date and Time */}
+      <input type="hidden" name="userEmail" value={session?.user?.email ?? ''}/>
+      {/** Date */}
       <div className="flex flex-col gap-2.5">
         <div className=" flex flex-col">
           <div className="flex flex-row items-center gap-2">
             <CalendarIcon className="h-6 w-6" />
             <p>Set your Date</p>
           </div>
-          <DatePicker disabledDate={disabledDate} onChange={onChange} />
+          <DatePicker disabledDate={disabledDate} onChange={onChange} value={selectedDate} name="Date"/>
+
         </div>
-        <div className="flex flex-col">
-          <div className="flex flex-row items-center gap-2">
-            <ClockIcon className="h-6 w-6" />
-            <p>Set your Time</p>
-          </div>
-          <TimePicker.RangePicker
-            format={format}
-            value={selectedTime}
-            onChange={handleTimeChange}
-          />
-        </div>
+
+      {/**Time */}
       </div>
 
+
+
+      {/**Floor Select */}
       <div className="w-full">
         <div className="flex flex-row items-center gap-2">
           <Squares2X2Icon className="h-6 w-6" />
@@ -149,7 +138,8 @@ export function FloorForm({
           <option value="" disabled className="">
             Select a Floor
           </option>
-          {floors.map((floor) => (
+          {floors.filter((floor) => floor.deskStatus === "AVAILABLE").map((floor) => (
+            
             <option key={floor.id} value={floor.id}>
               {floor.floorTitle}
             </option>
@@ -170,10 +160,10 @@ export function FloorForm({
         <div className="flex flex-row items-center gap-2">
           <Square2StackIcon className="h-6 w-6" />
           <label htmlFor="room">Choose Room</label>
-        </div>{" "}
+        </div>
         <select
           id="customer"
-          name="customerId"
+          name="roomTitle"
           className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
           defaultValue=""
           required
@@ -207,7 +197,7 @@ export function FloorForm({
         </div>
         <select
           id="customer"
-          name="customerId"
+          name="deskId"
           className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
           defaultValue=""
           required

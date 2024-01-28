@@ -1,3 +1,4 @@
+
 import Breadcrumbs from "@/app/ui/bookings/breadcrumbs";
 import Link from "next/link";
 import { getFloors, getRooms, getDesks } from "@/app/lib/data";
@@ -13,7 +14,7 @@ export default async function Page() {
         breadcrumbs={[
           {
             label: "Booking",
-            href: "/superAdmins/dashboard/floors",
+            href: "/users/dashboard/bookings",
             active: true,
           },
         ]}

@@ -12,9 +12,9 @@ import {
   FormLabel,
   FormItem,
   FormMessage,
-} from "@/components/ui/form";
+} from "@/app/ui/shadcn/form";
 
-import { Input } from "@/components/ui/input";
+import { Input } from "@/app/ui/shadcn/input";
 import { Button } from "./button";
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
 import {signIn} from "next-auth/react";

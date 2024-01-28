@@ -1,8 +1,12 @@
 import Breadcrumbs from "@/app/ui/bookings/breadcrumbs";
 import BookingsTable from "@/app/ui/bookings/table";
+import { getBookings } from "@/app/lib/data";
 
 
-export default function Page() {
+export default async function Page() {
+
+  const bookings = await getBookings();
+
     return (
       <main>
         <Breadcrumbs
@@ -10,7 +14,7 @@ export default function Page() {
           { label: "Bookings", href:"/superAdmins/dashboard/bookings", active:true}
         ]}
         />
-        <BookingsTable/>
+        <BookingsTable bookings={bookings}/>
       </main>
     )
   }

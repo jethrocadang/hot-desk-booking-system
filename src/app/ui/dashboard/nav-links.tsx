@@ -107,7 +107,7 @@ function AdminNavLinks() {
 }
 
 const superAdminLinks = [
-  { name: "Home", href: "/dashboard", icon: HomeIcon },
+  { name: "Home", href: "/superAdmins/dashboard", icon: HomeIcon },
   {
     name: "Bookings",
     href: "/superAdmins/dashboard/bookings",

@@ -7,7 +7,7 @@ const userSchema = z.object({
   firstName: z.string().min(1, "Required."),
   lastName: z.string().min(1, "Required"),
   email: z.string().min(1, "Required").email("Invalid Email"),
-  password: z.string().min(12, "At least 12 Characters"),
+  password: z.string().min(5, "At least 12 Characters"),
 });
 
 export async function POST(req: Request) {

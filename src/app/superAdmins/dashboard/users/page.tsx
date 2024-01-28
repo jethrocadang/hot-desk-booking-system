@@ -1,7 +1,11 @@
 import UsersTable from "@/app/ui/users/table";
 import Breadcrumbs from "@/app/ui/bookings/breadcrumbs";
+import { getUsers } from "@/app/lib/data";
 
-export default function Page() {
+export default async function Page() {
+
+  const users = await getUsers();
+
   return (
     <main>
       <Breadcrumbs
@@ -13,7 +17,7 @@ export default function Page() {
           },
         ]}
       />
-      <UsersTable />
+      <UsersTable users={users}/>
     </main>
   );
 }

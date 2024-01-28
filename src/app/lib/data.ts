@@ -1,9 +1,10 @@
 import { Floor, Room, Desk } from "@prisma/client";
 import prisma from "./prisma";
 
+
+// Get all Floors
 export async function getFloors() {
   const floors = await prisma.floor.findMany({
-    where: { deskStatus: "AVAILABLE" },
     orderBy: [{ floorTitle: "asc" }],
     include:{
         rooms: {
@@ -18,10 +19,10 @@ export async function getFloors() {
 
 }
 
+// Get all Rooms
 export async function getRooms() {
     const rooms = await prisma.room.findMany({
       where: {
-        deskStatus: "AVAILABLE",
       },
       orderBy: [
         { roomTitle: "asc" }
@@ -33,10 +34,9 @@ export async function getRooms() {
     return rooms;
   }
   
-
+// Get all Desks
 export async function getDesks() {
   const desks = await prisma.desk.findMany({
-    where: { deskStatus: "AVAILABLE" },
     orderBy: [{ deskTitle: "asc" }],
     include:{
         room: true
@@ -44,3 +44,41 @@ export async function getDesks() {
   });
   return desks;
 }
+
+// Get all Bookings
+export async function getBookings() {
+  const bookings = await prisma.booking.findMany({
+  });
+  return bookings;
+}
+
+// Get all Users
+export async function getUsers(){
+  const users = await prisma.user.findMany({})
+
+  return users
+}
+
+
+// Get all Rooms by Floor ID
+
+export async function getRoomsbyID({id}: {id:string}){
+
+  const floorId = id
+
+  const rooms = await prisma.room.findMany({
+    where: {
+      floorId: floorId
+    },
+    orderBy: [
+      { roomTitle: "asc" }
+    ],
+    include:{
+      desk:true
+    }
+  });
+  
+  return rooms;
+}
+
+ 
