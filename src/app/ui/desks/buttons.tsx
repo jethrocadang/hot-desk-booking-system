@@ -101,7 +101,7 @@ export function ViewFloor({id, title} : {id:string; title:string}) {
 
   return (
     <Link
-      href={`/superAdmins/dashboard/floors/${id}/rooms`}
+      href={`/superAdmins/dashboard/floors/rooms`}
       className="flex h-10 items-center rounded-lg bg-sky-500 px-4 text-sm font-medium text-white transition-colors hover:bg-sky-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
     >
       <span className="hidden md:block">{title}</span>{" "}
@@ -113,7 +113,7 @@ export function ViewFloor({id, title} : {id:string; title:string}) {
 export function ViewRoom({id, title} : {id:string; title:string}) {
   return (
     <Link
-      href={`/superAdmins/dashboard/floors/rooms/${id}/desks`}
+      href={`/superAdmins/dashboard/floors/desks`}
       className="flex h-10 items-center rounded-lg bg-sky-500 px-4 text-sm font-medium text-white transition-colors hover:bg-sky-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
     >
       <span className="hidden md:block">{title}</span>{" "}

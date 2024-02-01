@@ -26,7 +26,7 @@ export async function Floors({ floors }: { floors: Floor[] }) {
         {floors?.map((floor) => (
           <tr key={floor.id}>
             <td>
-              <div className=" flex justify-between">
+              <div className=" flex justify-between mt-7">
                 <div className={` flex items-center font-medium text-lg `}>
                   <ViewFloor id={floor.id} title={floor.floorTitle || ''}/>
                 </div>

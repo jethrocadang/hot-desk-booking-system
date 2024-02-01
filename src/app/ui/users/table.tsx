@@ -34,11 +34,11 @@ export default async function UsersTable({users}:{users:User[]}) {
             </thead>
             <tbody className="bg-white">
               {users?.map((users) => 
-              <tr className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg">
+              <tr key={users.id} className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg">
                 <td className="whitespace-nowrap py-3 pl-6 pr-3">
                   <div className="flex items-center gap-3">
                     <UserCircleIcon className="h-10 w-10"/>
-                    <p>{users.firstName} {users.lastName}</p>
+                    <p>{users.name}</p>
                   </div>
                 </td>
                 <td className="whitespace-nowrap px-3 py-3">
@@ -52,14 +52,14 @@ export default async function UsersTable({users}:{users:User[]}) {
                 {/* <td className="whitespace-nowrap px-3 py-3">January 1, 2023</td> */}
                 <td className="whitespace-nowrap px-3 py-3">
                 </td>
-                {/* <td className="whitespace-nowrap py-3 pl-6 pr-3">
+                <td className="whitespace-nowrap py-3 pl-6 pr-3">
                   <div className="flex justify-end gap-3">
                     <EditUser/>
                     <DeleteUser/>
-                    <AcceptUser/>
+                    {/* <AcceptUser/> */}
                   
                   </div>
-                </td> */}
+                </td>
               </tr>
               )}
             </tbody>

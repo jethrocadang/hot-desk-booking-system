@@ -52,6 +52,19 @@ export async function getBookings() {
   return bookings;
 }
 
+// Get  Bookings by user Email
+export async function getBookingsById({email}: {email:string}) {
+
+
+  const bookings = await prisma.booking.findMany({
+    where:{
+      userEmail: email
+    }
+  });
+  return bookings;
+}
+
+
 // Get all Users
 export async function getUsers(){
   const users = await prisma.user.findMany({})
@@ -77,7 +90,7 @@ export async function getRoomsbyID({id}: {id:string}){
       desk:true
     }
   });
-  
+
   return rooms;
 }
 

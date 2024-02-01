@@ -17,8 +17,7 @@ import {
 import { Input } from "@/app/ui/shadcn/input";
 import { Button } from "./button";
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
-import { createUser } from "../lib/actions";
-import { METHODS } from "http";
+import { redirect } from "next/navigation";
 
 const formSchema = z
   .object({
@@ -68,6 +67,8 @@ export default function Register() {
     if (response.ok){
       console.log(values)
       console.log(response)
+      router.push('/login')
+
     } else{
       console.error('Failed')
     }

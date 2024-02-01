@@ -20,10 +20,6 @@ const desks = await getDesks();
           },
         ]}
       />
-
-      {/* <div className={`${lusitana.className} bg-sky-100 p-3 mb-10 rounded-lg`}>
-        Private Office
-      </div> */}
       <Desks desks={desks}/>
     </main>
   );

@@ -1,6 +1,8 @@
 import LoginForm from '@/app/ui/login-form';
 import CompanyLogo from '../ui/company-logo';
 import { lusitana } from '../ui/fonts';
+import GoogleSignIn from '../ui/login-button';
+
 export default function LoginPage() {
   return (
     <main className="flex items-center justify-center md:h-screen">
@@ -11,11 +13,10 @@ export default function LoginPage() {
           </div>
         </div>
         <div className="rounded-lg bg-gray-50 px-6 pb-4 pt-8">
-        <h1 className={`${lusitana.className} mb-3 text-2xl`}>
-            Log In to continue
+        <h1 className={`${lusitana.className} mb-3 text-xl`}>
+            Please Sign In using your corporate Google Email
           </h1>
-        <LoginForm />
-
+        <GoogleSignIn/>
         </div>
       </div>
     </main>

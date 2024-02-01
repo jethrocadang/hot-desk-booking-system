@@ -11,7 +11,7 @@ import { Desk } from "@prisma/client";
 
 
 
-
+// Create Booking
 const FormSchema = z.object({
     userEmail: z.string(),
     deskId: z.string(),
@@ -22,6 +22,8 @@ const FormSchema = z.object({
 const CreateBooking = FormSchema
 
 export async function createBooking(formData : FormData){
+
+  console.log(formData)
 
   const { userEmail, deskId, date} = CreateBooking.parse({
     userEmail : formData.get('userEmail'),
@@ -50,48 +52,48 @@ export async function createBooking(formData : FormData){
 };
 
 
+// Create User
+// const userSchema = z.object({
+//   firstName: z.string().min(1, "Required."),
+//   lastName: z.string().min(1, "Required"),
+//   email: z.string().min(1, "Required").email("Invalid Email"),
+//   password: z.string().min(5, "At least 12 Characters"),
+// });
 
-const userSchema = z.object({
-  firstName: z.string().min(1, "Required."),
-  lastName: z.string().min(1, "Required"),
-  email: z.string().min(1, "Required").email("Invalid Email"),
-  password: z.string().min(5, "At least 12 Characters"),
-});
+// const CreateUser = userSchema
 
-const CreateUser = userSchema
+// export async function createUser(formData : FormData){
 
-export async function createUser(formData : FormData){
-
-  const { firstName, lastName, email, password} = CreateUser.parse({
-    firstName : formData.get('firstName'),
-    lastName : formData.get('lastName'),
-    email : formData.get('email'),
-    password: formData.get('password')
-  })
+//   const { firstName, lastName, email, password} = CreateUser.parse({
+//     firstName : formData.get('firstName'),
+//     lastName : formData.get('lastName'),
+//     email : formData.get('email'),
+//     password: formData.get('password')
+//   })
 
   
 
-  // Check email if existing
-  const existingUserEmail = await prisma.user.findUnique({
-    where: {
-      email: email,
-    },
-  });
+//   // Check email if existing
+//   const existingUserEmail = await prisma.user.findUnique({
+//     where: {
+//       email: email,
+//     },
+//   });
 
-  if (existingUserEmail) {
-    return console.log('Email existing')
-  }
+//   if (existingUserEmail) {
+//     return console.log('Email existing')
+//   }
 
-  // Hash paswword
-  const hashPassword = await hash(password, 10);
-
-
-  return console.log(firstName, lastName, email, hashPassword)
-
-}
+//   // Hash paswword
+//   const hashPassword = await hash(password, 10);
 
 
+//   return console.log(firstName, lastName, email, hashPassword)
 
+// }
+
+
+// Update Floor Status
 export async function updateFloorStatus(id : string){
 
   const floorId = id;
@@ -118,7 +120,7 @@ revalidatePath('superAdmins/dashboard/floors')
 return UpdateFloorStatus
 }
 
-
+// Update Room Status
 export async function updateRoomStatus(id : string){
 
   const roomId = id;
@@ -146,7 +148,7 @@ export async function updateRoomStatus(id : string){
 return UpdateRoomStatus
 }
 
-
+// Update Desk Status
 export async function updateDeskStatus(id : string){
 
   const deskId = id;
@@ -172,5 +174,22 @@ revalidatePath('superAdmins/dashboard/floors/desks')
 
 
 return UpdatedeskStatus
+
+}
+
+//Delete Booking
+
+export async function deleteBooking(id:string){
+  const bookingId = id;
+
+  const DeleteBooking = await prisma.booking.delete({
+    where:{
+      id: bookingId
+    }
+  })
+
+  revalidatePath('')
+
+  return DeleteBooking
 
 }

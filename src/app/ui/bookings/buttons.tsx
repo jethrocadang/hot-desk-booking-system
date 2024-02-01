@@ -10,20 +10,19 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 
-export function DeleteBooking() {
-  const [showModal, setShowModal] = React.useState(false);
+import { deleteBooking } from "@/app/lib/actions";
+
+export function DeleteBooking({ id }: { id: string }) {
+
+  const deleteBookingwithID = deleteBooking.bind(null, id)
+
 
   return (
-    <>
-      <Link
-        href=""
-        className="rounded-md border p-2 hover:bg-gray-100"
-        onClick={() => setShowModal(true)}
-      >
+    <form action={deleteBookingwithID}>
+      <button className="rounded-md border p-2 hover:bg-gray-100">
         <TrashIcon className="w-5" />
-      </Link>
-      
-    </>
+      </button>
+    </form>
   );
 }
 

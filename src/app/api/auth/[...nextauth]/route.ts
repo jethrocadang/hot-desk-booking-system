@@ -1,119 +1,178 @@
-import NextAuth from 'next-auth'
+import NextAuth from "next-auth";
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import prisma from "@/app/lib/prisma";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { compare } from "bcrypt";
-import { Role, User } from '@prisma/client';
+import { Role, User } from "@prisma/client";
+import GoogleProvider from "next-auth/providers/google";
+import { PrismaClient } from "@prisma/client"
 
 
 const options: NextAuthOptions = {
-    adapter: PrismaAdapter(prisma),
-    session:{
-        strategy:'jwt'
-    },
-   pages:{
-        signIn:'/login',
-        signOut:'/'
-   },
-    providers : [
-        CredentialsProvider({
-            name: 'Credentials',
-            credentials:{
-                email:{
-                    label: "Email",
-                    type : "email",
-                },
-                password:{
-                    label: "Password",
-                    type: "password"
-                }
+  adapter: PrismaAdapter(prisma),
 
-            },
-            async authorize(credentials) {
+  session: {
+    strategy: "jwt",
+  },
+  pages: {
+    signIn: "/login",
+    // signOut:'/'
+  },
+  providers: [
+    // CredentialsProvider({
+    //     name: 'Credentials',
+    //     credentials:{
+    //         email:{
+    //             label: "Email",
+    //             type : "email",
+    //         },
+    //         password:{
+    //             label: "Password",
+    //             type: "password"
+    //         }
 
-                console.log("Received credentials:", credentials);
+    //     },
+    //     async authorize(credentials) {
 
-                if (!credentials?.email || !credentials?.password){
-                    console.log("Missing email or password in credentials");
-                    return null
-                }
+    //         console.log("Received credentials:", credentials);
 
-                const user = await prisma.user.findUnique({
-                    where: {
-                        email: credentials.email
-                    }
-                })
+    //         if (!credentials?.email || !credentials?.password){
+    //             console.log("Missing email or password in credentials");
+    //             return null
+    //         }
 
-                console.log(user?.email, user?.lastName, user?.firstName)
+    //         const user = await prisma.user.findUnique({
+    //             where: {
+    //                 email: credentials.email
+    //             }
+    //         })
 
-                if (!user) {
-                    console.log("User not found or password is null");
-                    return null
-                }
+    //         console.log(user?.email, user?.lastName, user?.firstName)
 
-                if (user.password === null) {
-                    console.log("Password is null");
-                    return null;
-                  }
+    //         if (!user) {
+    //             console.log("User not found or password is null");
+    //             return null
+    //         }
 
-                const isPasswordMatch = await compare(credentials.password, user.password);
+    //         if (user.password === null) {
+    //             console.log("Password is null");
+    //             return null;
+    //           }
 
-                console.log(isPasswordMatch)
-                console.log(user.password)
+    //         const isPasswordMatch = await compare(credentials.password, user.password);
 
-                if (!isPasswordMatch) {
-                    console.log("Password does not match");
+    //         console.log(isPasswordMatch)
+    //         console.log(user.password)
 
-                    return null
-                }
+    //         if (!isPasswordMatch) {
+    //             console.log("Password does not match");
 
-                return {
-                    id: user.id,
-                    email: user.email,
-                    firstName: user.firstName,
-                    lastName: user.lastName,
-                    role: user.role
-                   
-                }
+    //             return null
+    //         }
 
-            }
-        }),
+    //         return {
+    //             id: user.id,
+    //             email: user.email,
+    //             firstName: user.firstName,
+    //             lastName: user.lastName,
+    //             role: user.role
 
-    ],
+    //         }
 
-    callbacks:{
-        session:({session, token}) => {
-            return{
-                ...session,
-                user:{
-                    ...session.user,
-                    id: token.id,
-                    firstName: token.firstName,
-                    lastName: token.lastName, 
-                    role: token.role                   
-                },
-                
-            }
+    //     }
+    // }),
+
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      authorization: {
+        params: {
+          prompt: "consent",
+          access_type: "offline",
+          response_type: "code",
         },
-        jwt: async ({token, user}) => {
-            if (user){
-                const u = user as unknown as User
-                return({
-                    ...token,
-                    id: u.id,
-                    firstName: u.firstName,
-                    lastName: u.lastName,
-                    role: u.role
+      },
+      profile(profile) {
+        return {
+          id: profile.sub,
+          name: profile.name,
+          email: profile.email,
+          image: profile.image,
+          role: profile.role,
+        };
+      },
+    }),
 
-                })
-            }
+    
+  ],
 
-            return token
-        }
-    }
-}
 
-const handler = NextAuth(options)
+  callbacks: {
+    session: ({ session, token }) => {
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.id,
+          name: token.name,
+          email: token.email,
+          image: token.image,
+          role: token.role,
+        },
+      };
+    },
+    jwt: async ({ token, user }) => {
+      if (user) {
+        const u = user as unknown as User;
+        return {
+          ...token,
+          id: u.id,
+          name: u.name,
+          email: u.email,
+          image: u.image,
+          role: u.role,
+        };
+      }
 
-export {handler as GET, handler as POST}
+      return token;
+    },
+
+    // async jwt ({token, user}){
+    //     return {...token, ...user}
+    // },
+
+    // async session({session, token}){
+    //     session.user.role = token.role;
+
+    //     return session
+    // },
+
+    async signIn({ profile }) {
+      if (!profile?.email) {
+        throw new Error("no Profile");
+      }
+
+      await prisma.user.upsert({
+        where: {
+          email: profile.email,
+        },
+        create: {
+          email: profile.email,
+          name: profile.name,
+          image: profile.image,
+        },
+        update: {
+          name: profile.name,
+          image: profile.image,
+        },
+      });
+
+      return true;
+    },
+  },
+};
+
+const handler = NextAuth(options);
+
+export { handler as GET, handler as POST };
