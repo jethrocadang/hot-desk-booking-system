@@ -4,17 +4,14 @@ import UserBookingsTable from "@/app/ui/bookings/userBookingsTable";
 import { getBookings } from "@/app/lib/data";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
+import { lusitana } from "@/app/ui/fonts";
 
 
 export default function Page() {
 
 const {data: session} = useSession();
 
-const imageUrl = session?.user?.image;
 
-console.log(imageUrl)
-console.log(session?.user.id)
-console.log(session?.user.email)
 
 
 
@@ -22,16 +19,7 @@ console.log(session?.user.email)
 
     return (
       <main>
-        {/* <UserBookingsTable bookings={bookings}/>      */}
-        {/* <img src={`${session?.user?.image}`} alt="" /> */}
-        {/* <Image
-        src={imageUrl}
-        height={50}
-        width={50}
-        alt="akjsd"
-        /> */}
-        <p>{`${session?.user?.name}`}</p>
-        <p>{imageUrl}</p>
+        <p className={`${lusitana}`}>Welcome {`${session?.user?.name}`}, start your Booking today !</p>
       </main>
     )
   }

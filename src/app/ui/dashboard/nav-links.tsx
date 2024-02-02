@@ -68,7 +68,7 @@ const adminLinks = [
   },
   {
     name: "Desks",
-    href: "/admins/dashboard/desks",
+    href: "/admins/dashboard/floors",
     icon: Squares2X2Icon,
   },
   {

@@ -1,5 +1,7 @@
+"use client";
+
 import Image from "next/image";
-import { DeleteUser, AcceptUser, EditUser } from "./buttons";
+import { DeleteUser, EditUser } from "./buttons";
 import UserRole from "./roles";
 import { User } from "@prisma/client";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
@@ -33,19 +35,26 @@ export default async function UsersTable({users}:{users:User[]}) {
               </tr>
             </thead>
             <tbody className="bg-white">
-              {users?.map((users) => 
-              <tr key={users.id} className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg">
+              {users?.map((user) => 
+              <tr key={user.id} className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg">
                 <td className="whitespace-nowrap py-3 pl-6 pr-3">
                   <div className="flex items-center gap-3">
-                    <UserCircleIcon className="h-10 w-10"/>
-                    <p>{users.name}</p>
+                    {/* <UserCircleIcon className="h-10 w-10"/> */}
+                    <Image
+                    className="rounded-full"
+                    src={user.image}
+                    height={40}
+                    width={40}
+                    alt="Profile"
+                    />
+                    <p>{user.name}</p>
                   </div>
                 </td>
                 <td className="whitespace-nowrap px-3 py-3">
-                  {users.email}
+                  {user.email}
                 </td>
                 <td className="whitespace-nowrap px-3 py-3">
-                    <UserRole role={users.role}/>
+                    <UserRole role={user.role}/>
                   
 
                 </td>
@@ -54,8 +63,8 @@ export default async function UsersTable({users}:{users:User[]}) {
                 </td>
                 <td className="whitespace-nowrap py-3 pl-6 pr-3">
                   <div className="flex justify-end gap-3">
-                    <EditUser/>
-                    <DeleteUser/>
+                    <EditUser id={user.id}/>
+                    <DeleteUser id={user.id}/>
                     {/* <AcceptUser/> */}
                   
                   </div>

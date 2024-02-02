@@ -59,7 +59,7 @@ export function Rooms({ rooms }: { rooms: Room[] }) {
         {rooms?.map((room) => (
           <tr key={room.id} className="flex">
             <td>
-              <div className="flex flex-row">
+              <div className="flex flex-row mt-7">
                 <div className="flex justify-center ">
                   <Image
                     src={`${room.imageUrl}`}
@@ -93,7 +93,7 @@ export function Desks({ desks }: { desks: Desk[] }) {
         {desks?.map((desk) => (
         <tr key={desk.id}>
           <td>
-            <div className="flex flex-row">
+            <div className="flex flex-row mt-7">
               <div className="flex justify-center ">
                 <Image
                   src={`${desk.imageUrl}`}
@@ -106,7 +106,7 @@ export function Desks({ desks }: { desks: Desk[] }) {
                 <div
                   className={`${lusitana.className} flex items-center font-medium text-lg `}
                 >
-                  Private Office
+                  {desk.deskTitle}
                 </div>
                 <div className="flex justify-end gap-2 ">
                   <DisableDesk id={desk.id} status={desk.deskStatus}/>

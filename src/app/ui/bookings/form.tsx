@@ -102,7 +102,8 @@ export function FloorForm({
   return (
     
     <form action={createBooking} className="flex width-full flex-col gap-2.5 p-10 bg-white m-8 rounded-lg">
-      
+      <input type="hidden" name="image" value={session?.user?.image}/>
+      <input type="hidden" name="name" value={session?.user?.name} />
       <input type="hidden" name="userEmail" value={session?.user?.email ?? ''}/>
       {/** Date */}
       <div className="flex flex-col gap-2.5">

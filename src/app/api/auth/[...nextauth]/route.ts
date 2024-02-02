@@ -98,7 +98,7 @@ const options: NextAuthOptions = {
           id: profile.sub,
           name: profile.name,
           email: profile.email,
-          image: profile.image,
+          image: profile.picture,
           role: profile.role,
         };
       },
@@ -117,7 +117,7 @@ const options: NextAuthOptions = {
           id: token.id,
           name: token.name,
           email: token.email,
-          image: token.image,
+          image: token.picture,
           role: token.role,
         },
       };
@@ -148,28 +148,28 @@ const options: NextAuthOptions = {
     //     return session
     // },
 
-    async signIn({ profile }) {
-      if (!profile?.email) {
-        throw new Error("no Profile");
-      }
+    // async signIn({ profile }) {
+    //   if (!profile?.email) {
+    //     throw new Error("no Profile");
+    //   }
 
-      await prisma.user.upsert({
-        where: {
-          email: profile.email,
-        },
-        create: {
-          email: profile.email,
-          name: profile.name,
-          image: profile.image,
-        },
-        update: {
-          name: profile.name,
-          image: profile.image,
-        },
-      });
+    //   await prisma.user.upsert({
+    //     where: {
+    //       email: profile.email,
+    //     },
+    //     create: {
+    //       email: profile.email,
+    //       name: profile.name,
+    //       image: profile.image,
+    //     },
+    //     update: {
+    //       name: profile.name,
+    //       image: profile.image,
+    //     },
+    //   });
 
-      return true;
-    },
+    //   return true;
+    // },
   },
 };
 

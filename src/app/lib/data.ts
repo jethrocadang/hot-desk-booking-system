@@ -67,11 +67,31 @@ export async function getBookingsById({email}: {email:string}) {
 
 // Get all Users
 export async function getUsers(){
+
   const users = await prisma.user.findMany({})
 
   return users
 }
 
+// Counts for dashboard cards
+
+export async function countInfosForCards(){
+
+  const countUsers = await prisma.user.count({})
+  const countAdmins = await prisma.user.count({
+    where:{
+      role: "ADMIN"
+    }
+  })
+  const countBookings = await prisma.booking.count({})
+  const countDesks = await prisma.desk.count({})
+
+
+  console.log(countAdmins, countBookings, countDesks, countUsers)
+  return {
+    countBookings, countDesks, countUsers, countAdmins
+  }
+}
 
 // Get all Rooms by Floor ID
 

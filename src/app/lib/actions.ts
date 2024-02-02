@@ -13,6 +13,8 @@ import { Desk } from "@prisma/client";
 
 // Create Booking
 const FormSchema = z.object({
+    name: z.string(),
+    image: z.string(),
     userEmail: z.string(),
     deskId: z.string(),
     date: z.string()
@@ -25,10 +27,14 @@ export async function createBooking(formData : FormData){
 
   console.log(formData)
 
-  const { userEmail, deskId, date} = CreateBooking.parse({
+  const { userEmail, deskId, date, image, name} = CreateBooking.parse({
     userEmail : formData.get('userEmail'),
     deskId: formData.get('deskId'),
-    date: formData.get('Date')
+    date: formData.get('Date'),
+    name: formData.get('name'),
+    image: formData.get('image')
+
+
   })
 
 
@@ -39,7 +45,8 @@ export async function createBooking(formData : FormData){
         deskId,
         userEmail,
         date,
-        
+        image,
+        name 
       }
     })
   } catch(error){
@@ -191,5 +198,57 @@ export async function deleteBooking(id:string){
   revalidatePath('')
 
   return DeleteBooking
+
+}
+
+
+//Promote user
+
+
+export async function promoteUser(id: string){
+
+  const userId = id
+
+  console.log(userId)
+
+  const CurrentRole = await prisma.user.findUnique({
+    where:{
+      id : userId
+    }
+  })
+
+  const UpdateRole = CurrentRole?.role === "USER" ? "ADMIN" : "USER";
+
+  const UpdateUserRole = await prisma.user.update({
+    where:{
+      id: userId
+    },
+    data:{
+      role: UpdateRole
+    }
+  })
+
+  revalidatePath('superAdmins/dashboard/users')
+
+  return UpdateUserRole
+}
+
+
+//Delete User
+
+export async function deleteUser(id:string){
+  const userId = id;
+
+  console.log(userId)
+  
+  const DeleteUser = await prisma.user.delete({
+    where:{
+      id: userId
+    }
+  })
+
+  revalidatePath('')
+
+  return DeleteUser
 
 }

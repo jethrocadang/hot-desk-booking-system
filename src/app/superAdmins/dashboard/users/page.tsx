@@ -1,3 +1,5 @@
+"use server";
+
 import UsersTable from "@/app/ui/users/table";
 import Breadcrumbs from "@/app/ui/bookings/breadcrumbs";
 import { getUsers } from "@/app/lib/data";

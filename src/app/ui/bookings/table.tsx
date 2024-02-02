@@ -4,8 +4,11 @@ import { EditBooking, DeleteBooking } from "./buttons";
 import { Booking } from "@prisma/client";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
 
-
-export default async function BookingsTable({bookings}:{bookings: Booking[]}) {
+export default async function BookingsTable({
+  bookings,
+}: {
+  bookings: Booking[];
+}) {
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
@@ -34,30 +37,41 @@ export default async function BookingsTable({bookings}:{bookings: Booking[]}) {
               </tr>
             </thead>
             <tbody className="bg-white">
-              {bookings?.map((bookings) => 
-              <tr key={bookings.id} className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg">
-                <td className="whitespace-nowrap py-3 pl-6 pr-3">
-                  <div className="flex items-center gap-3">
-                   <UserCircleIcon className="h-10 w-10"/>
-                  </div>
-                </td>
-                <td className="whitespace-nowrap px-3 py-3">
-                  <p>{bookings.userEmail}</p>
-
-                </td>
-                {/* <td className="whitespace-nowrap px-3 py-3">10:00 AM</td> */}
-                <td className="whitespace-nowrap px-3 py-3">{bookings.date}</td>
-                <td className="whitespace-nowrap px-3 py-3">
-                  <BookingStatus status={`${bookings.bookingStatus}`} />
-                </td>
-                <td className="whitespace-nowrap py-3 pl-6 pr-3">
-                  <div className="flex justify-end gap-3">
-                    <EditBooking />
-                    <DeleteBooking id={bookings.id}/>
-                  </div>
-                </td>
-              </tr>
-              )}
+              {bookings?.map((bookings) => (
+                <tr
+                  key={bookings.id}
+                  className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
+                >
+                  <td className="whitespace-nowrap py-3 pl-6 pr-3">
+                    <div className="flex items-center gap-3">
+                      <Image
+                        className="rounded-full"
+                        src={bookings.image}
+                        height={40}
+                        width={40}
+                        alt="Profile"
+                      />
+                      <p>{bookings.name}</p>
+                    </div>
+                  </td>
+                  <td className="whitespace-nowrap px-3 py-3">
+                    <p>{bookings.userEmail}</p>
+                  </td>
+                  {/* <td className="whitespace-nowrap px-3 py-3">10:00 AM</td> */}
+                  <td className="whitespace-nowrap px-3 py-3">
+                    {bookings.date}
+                  </td>
+                  <td className="whitespace-nowrap px-3 py-3">
+                    <BookingStatus status={`${bookings.bookingStatus}`} />
+                  </td>
+                  <td className="whitespace-nowrap py-3 pl-6 pr-3">
+                    <div className="flex justify-end gap-3">
+                      <EditBooking />
+                      <DeleteBooking id={bookings.id} />
+                    </div>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

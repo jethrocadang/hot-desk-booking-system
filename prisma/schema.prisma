@@ -36,24 +36,39 @@ model Session {
 }
 
 model User {
-  id        String    @id @default(cuid())
-  email     String    @unique
-  name      String?
-  image     String?
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime  @updatedAt @map("updated_at")
-  role      Role      @default(USER)
-  verified  Boolean?   @default(false)
-  booking   Booking[]
-  accounts  Account[]
-  sessions  Session[]
-
-  // firstName String?   @map("first_name")
-  // lastName  String?   @map("last_name")
-  // password  String?
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime? @map("email_verified")
+  image         String?
+  role          Role      @default(USER)
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+  accounts      Account[]
+  sessions      Session[]
+  booking       Booking[]
 
   @@map("users")
 }
+
+// model User {
+//   id        String    @id @default(cuid())
+//   email     String    @unique
+//   name      String?
+//   image     String?
+//   createdAt DateTime  @default(now()) @map("created_at")
+//   updatedAt DateTime  @updatedAt @map("updated_at")
+//   verified  Boolean?  @default(false)
+//   booking   Booking[]
+//   accounts  Account[]
+//   sessions  Session[]
+
+//   // firstName String?   @map("first_name")
+//   // lastName  String?   @map("last_name")
+//   // password  String?
+
+//   @@map("users")
+// }
 
 model VerificationToken {
   identifier String
@@ -73,8 +88,8 @@ model Booking {
   bookingStatus BookingStatus @default(CONFIRMED)
   // userId        String
   deskId        String
-  // firstName     String
-  // lastName      String
+  image         String?
+  name          String?
   userEmail     String
 
   desk  Desk @relation(fields: [deskId], references: [id])
